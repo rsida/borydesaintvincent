@@ -1,0 +1,4 @@
+bory_de_saint_vincent:
+    resource: "@BoryDeSaintVincentBundle/Controller/"
+    type:     annotation
+    prefix:   /
