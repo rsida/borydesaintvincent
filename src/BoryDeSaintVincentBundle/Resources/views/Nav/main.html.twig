@@ -1,10 +1,11 @@
+{% set currentRoute = app.request.get('_route') %}
 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
     <div class="sidebar-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="#">
+                <a class="nav-link {% if currentRoute == 'default_index' %}active{% endif %}" href="{{ path('default_index') }}">
                     <span data-feather="home"></span>
-                    Accueil <span class="sr-only">(current)</span>
+                    Accueil
                 </a>
             </li>
         </ul>
@@ -17,8 +18,8 @@
         </h6>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="home"></span>
+                <a class="nav-link {% if currentRoute == 'professor_calendar' %}active{% endif %}" href="{{ path('professor_calendar') }}">
+                    <span data-feather="file-text"></span>
                     Professeurs absents
                 </a>
             </li>
