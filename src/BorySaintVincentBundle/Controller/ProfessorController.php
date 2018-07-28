@@ -18,8 +18,14 @@ class ProfessorController extends Controller
      */
     public function displayAction()
     {
+        /** @var \BorySaintVincentBundle\Repository\AbsenceRepository $repository */
+        $repository = $this->getDoctrine()->getRepository('BorySaintVincentBundle:Absence');
+
         /** @var Absence[] $rawAbsences */
-        $rawAbsences = $this->getDoctrine()->getRepository('BorySaintVincentBundle:Absence')->findFromNow();
+        $rawAbsences = $repository->findFromNow();
+
+        // Delete older absences
+        $repository->deleteOlderFromNow();
 
         return $this->render('@BorySaintVincent/Professor/calendar.html.twig', [
             'absences' => $this->convertAbsencesForView($rawAbsences),

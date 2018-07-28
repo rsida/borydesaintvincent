@@ -27,4 +27,19 @@ class AbsenceRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @return mixed
+     */
+    public function deleteOlderFromNow()
+    {
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder();
+
+         return $queryBuilder
+             ->delete('BorySaintVincentBundle:Absence', 'a')
+             ->where($queryBuilder->expr()->lt('a.startDate', ':now'))
+             ->setParameter('now', \DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d').' 00:00:00'))
+             ->getQuery()
+             ->execute();
+    }
 }
