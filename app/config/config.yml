@@ -2,7 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: "@BoryDeSaintVincentBundle/Resources/config/services.yml" }
+    - { resource: "@BorySaintVincentBundle/Resources/config/services.yml" }
     - { resource: "@UserBundle/Resources/config/services.yml" }
 
 parameters:

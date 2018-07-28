@@ -1,0 +1,81 @@
+{% extends '@BorySaintVincent/layout.html.twig' %}
+
+{% block mainContent %}
+
+    <div id="calendar"></div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="add-event-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Ajouter une absence</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" />
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript" src="http://momentjs.com/downloads/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
+
+    <script type="text/javascript">
+        var configuration = {
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month'
+            },
+            editable: false,
+            selectable: true,
+            weekends: false,
+            option: {
+                locale: 'fr',
+                isRTL: true
+            },
+            timezone: {},
+            height: $('#main-side-bar').height() - 60,
+            events: {{ absences | json_encode() | raw }},
+            eventAfterRender: function(event, element) {
+                if (event.hasOwnProperty('content')) {
+                    $(element).attr('data-toggle', 'popover');
+                    $(element).attr('data-content', event.content);
+                }
+            }
+        };
+
+        {% if is_granted("ROLE_PROFESSOR") %}
+        configuration.dayClick = function (date, jsEvent, view, resourceObj) {
+            $.get('{{ path('absence_add') }}', function (data) {
+                var modal = $('#add-event-modal');
+                var form  = $(data);
+
+                form.find('input[name="borysaintvincentbundle_absence[title]"]').val('{{ user.civility }}. {{  user.firstName }} {{ user.lastName }}');
+                form.find('input[name="borysaintvincentbundle_absence[startDate]"]').val(date.format());
+
+                modal.find('div.modal-body').empty().append(form);
+                modal.modal('show');
+            });
+        };
+        {% endif %}
+    </script>
+    <script type="text/javascript" src="{{ asset('bundles/borysaintvincent/script/calendar.manager.js') }}"></script>
+
+{% endblock %}

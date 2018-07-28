@@ -1,6 +1,6 @@
 <?php
 
-namespace BoryDeSaintVincentBundle\Tests\Controller;
+namespace BorySaintVincentBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

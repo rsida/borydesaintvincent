@@ -1,6 +1,6 @@
 <?php
 
-namespace BoryDeSaintVincentBundle\Controller;
+namespace BorySaintVincentBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -11,7 +11,7 @@ use UserBundle\Form\UserType;
 
 /**
  * Class AdminController
- * @package BoryDeSaintVincentBundle\Controller
+ * @package BorySaintVincentBundle\Controller
  * @Route("/admin")
  */
 class AdminController extends Controller
@@ -38,7 +38,7 @@ class AdminController extends Controller
             return $this->redirectToRoute('default_index');
         }
 
-        return $this->render('@BoryDeSaintVincent/Admin/create.user.html.twig', [
+        return $this->render('@BorySaintVincent/Admin/create.user.html.twig', [
             'form' => $form->createView(),
         ]);
     }
