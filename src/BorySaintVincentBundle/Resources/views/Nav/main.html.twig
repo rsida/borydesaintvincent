@@ -2,7 +2,7 @@
 <nav id="main-side-bar" class="col-md-2 d-none d-md-block bg-light sidebar">
     <div class="sidebar-sticky">
         <!-- ADMIN -->
-        {% if is_granted("ROLE_SUPER_ADMIN") %}
+        {% if is_granted("ROLE_PROFESSOR") %}
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Administration</span>
             <a class="d-flex align-items-center text-muted" href="#">
@@ -10,16 +10,24 @@
             </a>
         </h6>
         <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link {% if currentRoute == '' %}active{% endif %}" href="{{ path('default_index') }}">
-                    <span data-feather="home"></span>
-                    Gérer les utilisateurs
-                </a>
-            </li>
+            {% if is_granted("ROLE_SUPER_ADMIN") %}
             <li class="nav-item">
                 <a class="nav-link {% if currentRoute == 'admin_create_user' %}active{% endif %}" href="{{ path('admin_create_user') }}">
                     <span data-feather="home"></span>
                     Créer un utilisateur
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if currentRoute == 'admin_create_class' %}active{% endif %}" href="{{ path('admin_create_class') }}">
+                    <span data-feather="home"></span>
+                    Créer une classe
+                </a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link {% if currentRoute == 'admin_create_article' %}active{% endif %}" href="{{ path('admin_create_article') }}">
+                    <span data-feather="home"></span>
+                    Créer un article
                 </a>
             </li>
         </ul>
@@ -62,37 +70,6 @@
                 <span data-feather="plus-circle"></span>
             </a>
         </h6>
-        <ul class="nav flex-column mb-2">
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="file-text"></span>
-                    CP
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="file-text"></span>
-                    CE1
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="file-text"></span>
-                    CE2
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="file-text"></span>
-                    CM1
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="file-text"></span>
-                    CM2
-                </a>
-            </li>
-        </ul>
+        {{ render(controller('BorySaintVincentBundle:SchoolClass:menu')) }}
     </div>
 </nav>
