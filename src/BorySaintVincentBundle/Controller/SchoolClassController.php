@@ -33,6 +33,11 @@ class SchoolClassController extends Controller
      */
     public function displayAction($class)
     {
-        return new Response($class);
+        $class    = $this->getDoctrine()->getRepository('BorySaintVincentBundle:SchoolClass')->findOneBy(['slug' => $class]);
+        $articles = $this->getDoctrine()->getRepository('BorySaintVincentBundle:Article')->findBy(['schoolClass' => $class]);
+
+        return $this->render('@BorySaintVincent/SchoolClass/article.html.twig', [
+            'articles' => $articles,
+        ]);
     }
 }

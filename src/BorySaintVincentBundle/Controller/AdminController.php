@@ -2,7 +2,9 @@
 
 namespace BorySaintVincentBundle\Controller;
 
+use BorySaintVincentBundle\Entity\Article;
 use BorySaintVincentBundle\Entity\SchoolClass;
+use BorySaintVincentBundle\Form\ArticleType;
 use BorySaintVincentBundle\Form\SchoolClassType;
 use BorySaintVincentBundle\Service\StringService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -86,6 +88,53 @@ class AdminController extends Controller
      */
     public function createArticleAction(Request $request)
     {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
+        /** @var SchoolClass[] $classes */
+        $classes = $this
+            ->getDoctrine()
+            ->getRepository('BorySaintVincentBundle:SchoolClass')
+            ->findBy(['user' => $user]);
+
+        if (count($classes) === 0) {
+            throw $this->createAccessDeniedException('Current user must have a school class.');
+        }
+
+        $article = new Article();
+        /** @var \Symfony\Component\Form\Form $form */
+        $form = $this->get('form.factory')->create(ArticleType::class, $article, ['user' => $user]);
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file     = $article->getPicture();
+            $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
+
+            $file->move(
+                $this->getParameter('kernel.root_dir').'/../web/images/',
+                $fileName
+            );
+
+            $article->setPicture($fileName);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($article);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('notice', 'Article créé');
+
+            return $this->redirectToRoute('default_index');
+        }
+
+        return $this->render('@BorySaintVincent/Admin/create.article.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    private function generateUniqueFileName()
+    {
+        return md5(uniqid());
     }
 }

@@ -3,6 +3,7 @@
 namespace BorySaintVincentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Article
@@ -32,6 +33,7 @@ class Article
      * @var string
      *
      * @ORM\Column(name="picture", type="string", length=255)
+     * @Assert\File(mimeTypes={"image/gif", "image/jpeg", "image/png"})
      */
     private $picture;
 

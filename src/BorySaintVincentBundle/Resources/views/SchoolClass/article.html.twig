@@ -1,0 +1,11 @@
+{% extends '@BorySaintVincent/layout.html.twig' %}
+
+{% block mainContent %}
+
+    {% for article in articles %}
+    <div class="article">
+        {{ article.title }}
+    </div>
+    {% endfor %}
+
+{% endblock %}

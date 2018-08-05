@@ -21,10 +21,10 @@ class AbsenceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', HiddenType::class)
-            ->add('description', TextareaType::class)
-            ->add('startDate', HiddenType::class)
-            ->add('submit', SubmitType::class);
+            ->add('title', HiddenType::class, ['label' => 'Titre'])
+            ->add('description', TextareaType::class, ['label' => 'Sujet'])
+            ->add('startDate', HiddenType::class, ['label' => 'Date'])
+            ->add('submit', SubmitType::class, ['label' => 'Valider']);
     }
 
     /**
