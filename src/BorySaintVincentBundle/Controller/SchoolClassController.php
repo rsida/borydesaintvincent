@@ -37,7 +37,8 @@ class SchoolClassController extends Controller
         $articles = $this->getDoctrine()->getRepository('BorySaintVincentBundle:Article')->findBy(['schoolClass' => $class]);
 
         return $this->render('@BorySaintVincent/SchoolClass/article.html.twig', [
-            'articles' => $articles,
+            'schoolClass' => $class,
+            'articles'    => $articles,
         ]);
     }
 }

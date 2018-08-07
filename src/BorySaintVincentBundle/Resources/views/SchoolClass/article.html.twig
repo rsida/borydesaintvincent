@@ -1,11 +1,28 @@
 {% extends '@BorySaintVincent/layout.html.twig' %}
 
 {% block mainContent %}
+    <h1>Actualités de la classe {{ schoolClass.name }}</h1>
 
-    {% for article in articles %}
-    <div class="article">
-        {{ article.title }}
+    <div class="row">
+        {% for article in articles %}
+        <div class="col article">
+
+            {% if article.picture is not empty %}
+            <div class="container" style="position: relative;">
+                <img src="{{ asset('images/' ~ article.picture) }}" title="{{ article.pictureText }}" style="width: 100%; height: 20em;"/>
+                <h2 style="position: absolute;">{{ article.pictureText }}</h2>
+            </div>
+            {% endif %}
+
+            <div class="container">
+
+                <h3>{{ article.title }}</h3>
+
+            </div>
+
+
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 
 {% endblock %}
