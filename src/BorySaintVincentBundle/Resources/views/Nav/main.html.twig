@@ -70,6 +70,6 @@
                 <span data-feather="plus-circle"></span>
             </a>
         </h6>
-        {{ render(controller('BorySaintVincentBundle:SchoolClass:menu')) }}
+        {{ render(controller('BorySaintVincentBundle:SchoolClass:menu', {'routeName': currentRoute, 'routeParameters': app.request.attributes.get('_route_params') | json_encode})) }}
     </div>
 </nav>

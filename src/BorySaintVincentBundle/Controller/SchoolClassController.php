@@ -12,16 +12,24 @@ use Symfony\Component\HttpFoundation\Response;
 class SchoolClassController extends Controller
 {
     /**
-     * @Route("/menu", name="school_class_menu")
+     * @Route(
+     *     "/menu/{routeName}/{routeParameters}",
+     *     name="school_class_menu",
+     *     defaults={"routeName": "", "routeParameters": "{}"}
+     * )
      *
+     * @param string $routeName
+     * @param string $routeParameters
      * @return Response
      */
-    public function menuAction()
+    public function menuAction($routeName, $routeParameters)
     {
         $classes = $this->getDoctrine()->getRepository('BorySaintVincentBundle:SchoolClass')->findAll();
 
         return $this->render('BorySaintVincentBundle:Nav:partial.classes.html.twig', [
-            'classes' => $classes,
+            'classes'         => $classes,
+            'routeName'       => $routeName,
+            'routeParameters' => json_decode($routeParameters),
         ]);
     }
 

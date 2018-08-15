@@ -1,7 +1,7 @@
 <ul class="nav flex-column mb-2">
 {% for class in classes %}
     <li class="nav-item">
-        <a class="nav-link" href="{{ path('school_class_display', {'class': class.slug}) }}">
+        <a class="nav-link {% if routeName == 'school_class_display' and routeParameters.class == class.slug %}active{% endif %}" href="{{ path('school_class_display', {'class': class.slug}) }}">
             <span data-feather="file-text"></span>
             {{ class.name }}
         </a>
